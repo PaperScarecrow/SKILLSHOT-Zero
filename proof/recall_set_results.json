@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "d": 64,
+    "layers": 3,
+    "L": 64,
+    "steps": 2000
+  },
+  "multihop": [
+    {
+      "hops": 1,
+      "mixer": "dense",
+      "acc": 0.9973958333333334
+    },
+    {
+      "hops": 1,
+      "mixer": "topk",
+      "acc": 1.0
+    },
+    {
+      "hops": 1,
+      "mixer": "miras",
+      "acc": 0.026041666666666668
+    },
+    {
+      "hops": 1,
+      "mixer": "hier",
+      "acc": 0.4973958333333333
+    },
+    {
+      "hops": 2,
+      "mixer": "dense",
+      "acc": 0.15885416666666666
+    },
+    {
+      "hops": 2,
+      "mixer": "topk",
+      "acc": 0.15885416666666666
+    },
+    {
+      "hops": 2,
+      "mixer": "miras",
+      "acc": 0.018229166666666668
+    },
+    {
+      "hops": 2,
+      "mixer": "hier",
+      "acc": 0.14583333333333334
+    },
+    {
+      "hops": 3,
+      "mixer": "dense",
+      "acc": 0.140625
+    },
+    {
+      "hops": 3,
+      "mixer": "topk",
+      "acc": 0.1484375
+    },
+    {
+      "hops": 3,
+      "mixer": "miras",
+      "acc": 0.005208333333333333
+    },
+    {
+      "hops": 3,
+      "mixer": "hier",
+      "acc": 0.13020833333333334
+    }
+  ],
+  "multineedle": [
+    {
+      "pairs": 4,
+      "mixer": "dense",
+      "acc": 0.9973958333333334
+    },
+    {
+      "pairs": 4,
+      "mixer": "topk",
+      "acc": 0.9973958333333334
+    },
+    {
+      "pairs": 4,
+      "mixer": "miras",
+      "acc": 0.015625
+    },
+    {
+      "pairs": 4,
+      "mixer": "hier",
+      "acc": 0.4765625
+    },
+    {
+      "pairs": 16,
+      "mixer": "dense",
+      "acc": 1.0
+    },
+    {
+      "pairs": 16,
+      "mixer": "topk",
+      "acc": 0.9479166666666666
+    },
+    {
+      "pairs": 16,
+      "mixer": "miras",
+      "acc": 0.010416666666666666
+    },
+    {
+      "pairs": 16,
+      "mixer": "hier",
+      "acc": 0.4713541666666667
+    },
+    {
+      "pairs": 32,
+      "mixer": "dense",
+      "acc": 0.059895833333333336
+    },
+    {
+      "pairs": 32,
+      "mixer": "topk",
+      "acc": 0.0859375
+    },
+    {
+      "pairs": 32,
+      "mixer": "miras",
+      "acc": 0.4427083333333333
+    },
+    {
+      "pairs": 32,
+      "mixer": "hier",
+      "acc": 0.5546875
+    }
+  ]
+}

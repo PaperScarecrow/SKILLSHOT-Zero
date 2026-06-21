@@ -109,6 +109,13 @@ prediction stayed ~floor (0.13→0.10) — execution-heavy coding is beyond a 27
 
 See `../PAPER.md` for the full report.
 
+## Track E — recall set: multi-hop & capacity (`recall_set.py`)
+
+Harder than single-needle (3-layer models, 2000 steps). Cleanly-trained mixers (dense / top-k):
+- **multi-hop:** 1-hop solved (1.000) → collapses at 2–3 hops (~0.15). Compositional recall is the wall — even full attention can't chain at this 270M-toy scale.
+- **capacity:** holds to N=16 (1.000) → collapses at N=32 (0.06). The Ω(L)/state wall, measured.
+- `miras`/`hier` trained **erratically** at 3 layers (under-converged deep recurrence — failed easy cases, partially solved hard ones) → no reliable ranking on these hard regimes; their single-needle parity (2-layer, B1) stands. Full data in `recall_set_results.json`; see `../PAPER.md` §4.5.
+
 ## What this proves — and what it does NOT
 
 **Proven (on CPU, at small scale):**

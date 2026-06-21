@@ -120,6 +120,39 @@ the base couldn't discriminate severity and the tool learns to. code-match is a 
 from an adapter (it learns output *format*, not execution). We replaced it with the learnable
 comprehension task above and report the negative result honestly.
 
+### 4.5 The recall set — beyond single-needle (multi-hop & capacity)
+
+Single-needle recall (§4.2) is the *easy* bar. We tested the harder regimes (3-layer models, 2000 steps).
+The cleanly-trained mixers (dense, top-k) give the trustworthy curves:
+
+**Multi-hop** (chained recall: query k₀ → the node H hops away):
+
+| hops | dense | top-k |
+|---|---|---|
+| 1 | 0.997 | 1.000 |
+| 2 | 0.159 | 0.159 |
+| 3 | 0.141 | 0.148 |
+
+**Multi-needle** (capacity: one query, N bindings in L=64):
+
+| N bindings | dense | top-k |
+|---|---|---|
+| 4 | 0.997 | 0.997 |
+| 16 | 1.000 | 0.948 |
+| 32 | 0.060 | 0.086 |
+
+Two honest findings: (1) **compositional/multi-hop recall is the wall** — even *full attention* nails
+1-hop (1.0) but collapses past it (~0.15 at 2–3 hops) at this 270M-toy scale, i.e. single-needle success
+does **not** imply multi-hop reasoning; (2) **capacity is finite** — recall holds to ~16 bindings then
+collapses by 32 (the Ω(L)/state wall), as theory predicts.
+
+*Methodological caveat:* the linear-memory (`miras`) and `hier` mixers trained **erratically** in this
+3-layer setup — they failed easy cases yet partially solved hard ones (e.g. miras 0.03 at 1-hop but 0.44
+at N=32), the signature of an under-converged deep delta-rule recurrence (BPTT through stacked recurrences
+is hard to optimize), **not** a capability ranking. Their clean single-needle parity (§4.2, 2 layers)
+stands; a reliable deep/compositional comparison for the linear memory needs more tuning (more steps,
+lower LR, multi-seed) and is future work. Full numbers in `proof/recall_set_results.json`.
+
 ## 5. Edge footprint & quantization
 
 The machine is small, and — importantly — the **embedding table, not the transformer, dominates its
@@ -161,8 +194,9 @@ mix; but the footprint arithmetic says the deployment target is real, not hypoth
 
 - **Ω(L) ceiling.** Arbitrary associative recall needs Ω(L) state — general needle recall is O(n) at
   best, *not* O(log n). The O(log n) `hier` mixer holds only for sparse/structured recall.
-- **Single-needle ≠ multi-hop.** MQAR sparse recall is the easy bar; multi-needle / multi-hop reasoning
-  over long context is untested here.
+- **Single-needle ≠ multi-hop (now measured, §4.5).** Single-needle recall is the easy bar; even full
+  attention collapses past 1 hop and past ~16 bindings at this 270M-toy scale. Compositional/long-context
+  reasoning is the hard, unsolved regime here — budget for it (it does not come free with the base).
 - **Skill, not knowledge.** Skill-shot injects procedure/format; world knowledge must come from
   context/RAG (consistent with the small-model knowledge floor).
 - **Execution-heavy coding** (CRUXEval) is beyond a 270M even with an adapter.
