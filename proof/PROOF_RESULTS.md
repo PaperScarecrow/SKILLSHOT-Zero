@@ -107,7 +107,7 @@ CVE raw accuracy barely moves (base predicts the majority class) but **macro-F1 
 the base couldn't discriminate severity; the tool learns it. Documented boundary: CRUXEval-O output
 prediction stayed ~floor (0.13→0.10) — execution-heavy coding is beyond a 270M even with an adapter.
 
-See `../PAPER.md` for the full report (incl. an honest relation-to-Sub-Q section).
+See `../PAPER.md` for the full report.
 
 ## What this proves — and what it does NOT
 

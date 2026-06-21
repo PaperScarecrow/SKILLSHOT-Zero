@@ -120,31 +120,7 @@ the base couldn't discriminate severity and the tool learns to. code-match is a 
 from an adapter (it learns output *format*, not execution). We replaced it with the learnable
 comprehension task above and report the negative result honestly.
 
-## 5. Relation to concurrent work (Subquadratic / "Sub-Q")
-
-SKILLSHOT and Subquadratic both pursue **sub-quadratic attention for long context**, but at opposite
-ends of the scale and with different goals, so this is a relationship, not a head-to-head.
-
-- **Subquadratic (Sub-Q)** targets the *frontier*: an open base converted to a content-dependent sparse
-  attention ("SSA"), with a very large advertised context window (research-config 12M tokens; ~1M in
-  production). It is a model/product effort aimed at long-context inference at scale.
-- **SKILLSHOT (this work)** operates at the *small* end: a 270M base on CPU, used to (a) characterize the
-  sub-quadratic *mechanism* with open, reproducible code, and (b) demonstrate a distinct contribution —
-  the **tool-changer / skill-shot adapter system** — that is orthogonal to Sub-Q's focus.
-
-Honest comparison:
-- **On long-context scale, this work does not beat Sub-Q and does not attempt to** — we validate
-  mechanisms at small scale; we do not target frontier context length.
-- **On the attention mechanism**, our measurements support a neutral, generally-applicable point: *content
-  selective / top-k* sparse attention is not asymptotically sub-quadratic in compute (slope ~1.8 here);
-  the asymptotic win comes from the linear-recurrence (TITANS/MIRAS/DeltaNet) family. This applies to any
-  "sparse attention" effort, ours included.
-- **What is new here vs Sub-Q** is the tool-changer: hot-swappable skill-adapters with runtime
-  forge-and-memorialize on a frozen small base. Sub-Q does not address this; it is complementary.
-
-In short: different scope, complementary contributions; we make no capability claim over Sub-Q.
-
-## 6. Limitations & honest boundaries
+## 5. Limitations & honest boundaries
 
 - **Ω(L) ceiling.** Arbitrary associative recall needs Ω(L) state — general needle recall is O(n) at
   best, *not* O(log n). The O(log n) `hier` mixer holds only for sparse/structured recall.
@@ -160,7 +136,7 @@ In short: different scope, complementary contributions; we make no capability cl
   the O(L) win to show in wall-clock at usable L.
 - **Routing** here is keyword-based; a learned/embedding router is future work.
 
-## 7. Conclusion & next steps
+## 6. Conclusion & next steps
 
 A near-useless 270M base becomes a 100%-accurate specialist from a 2.75% adapter, swaps tools in ~8 ms,
 forges new tools at runtime, and yields real security/coding specialists — all CPU-only and reproducible.
