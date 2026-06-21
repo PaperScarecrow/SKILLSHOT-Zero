@@ -21,6 +21,10 @@ its own.
 | **Sub-quadratic memory** | a MIRAS/TITANS linear memory matches dense attention on needle recall (**1.000 = 1.000**) at genuinely **O(L)** cost (slope 0.93) vs dense **O(L²)** (slope 1.82) |
 | **Real tools** (HF datasets) | CVE-severity, vuln-detection (Devign), code-comprehension — base fails zero-shot, forged tools lift (see `proof/PROOF_RESULTS.md`) |
 
+**Edge footprint:** quantized (BitNet-b1.58 transformer + 4-bit embedding) the machine is **~100 MB** and
+each tool **~1–2 MB**; CPU-only by construction — target hardware is a Raspberry Pi Zero / microcontroller
+/ **router-native** deployment for offline defensive tooling (see `PAPER.md` §5).
+
 Honest boundary, documented: top-k sparse softmax is **not** sub-quadratic (O(L²)); arbitrary recall
 is Ω(L) (no O(log n) free lunch); skill-shot injects *procedure*, not *world knowledge* (use RAG for
 that); execution-heavy coding (CRUXEval) is beyond a 270M even with an adapter.

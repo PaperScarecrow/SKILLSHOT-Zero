@@ -120,7 +120,44 @@ the base couldn't discriminate severity and the tool learns to. code-match is a 
 from an adapter (it learns output *format*, not execution). We replaced it with the learnable
 comprehension task above and report the negative result honestly.
 
-## 5. Limitations & honest boundaries
+## 5. Edge footprint & quantization
+
+The machine is small, and — importantly — the **embedding table, not the transformer, dominates its
+size**.
+
+**Parameters (gemma-3-270m, ~268M):** embedding 167.8M (**63%**, = 262,144 vocab × 640 dim); transformer
+(18 layers) 100.3M (37%). So aggressive quantization of the transformer alone helps less than expected —
+the vocabulary table is the wall.
+
+**On-disk now:** repo (code+docs) ~0.3 MB · base model 511 MB (bf16) + tokenizer 32 MB · each forged tool
+30 MB (rank-32 LoRA, fp32) — or ~2 MB at rank-8/int8.
+
+**Quantized model size:**
+
+| Precision | bytes/param | model |
+|---|---|---|
+| bf16 (now) | 2.0 | 536 MB |
+| int8 | 1.0 | 268 MB |
+| 4-bit (NF4) | 0.5 | 134 MB |
+| ternary transformer + 4-bit embedding (BitNet b1.58 style) | — | **~104 MB** |
+| ternary transformer + 2-bit embedding | — | **~62 MB** |
+| 1-bit everything (theoretical floor; below the quality cliff) | 0.125 | ~34 MB |
+
+Realistic aggressive quant lands a **~60–100 MB machine**; tools are **~1–2 MB each** (int8, rank-8), so
+the *magazine* — not the machine — eventually dominates (≈50 tools ≈ 100 MB). A full "machine + a handful
+of tools" plausibly fits in **~100–150 MB**; with a domain-pruned vocabulary the ternary model could fall
+toward ~30–40 MB.
+
+**Why this matters — edge / defensive deployment.** SKILLSHOT is CPU-only by construction and ~100 MB
+quantized, which puts it on hardware a frontier model can't reach: a **Raspberry Pi Zero**, a
+microcontroller with enough flash (e.g. via a CPython/`pyduino`-style bridge), or — most consequentially —
+**natively on a router or gateway**. A self-contained tool-changer running in-place could forge and
+hot-swap narrow *defensive* skills at the network edge — the vuln / CVE-severity / log-classification tools
+demonstrated here — fully offline, no cloud dependency, and able to grow new tools at runtime. This is
+forward-looking and contingent on the §6 open questions holding up at the relevant context lengths and task
+mix; but the footprint arithmetic says the deployment target is real, not hypothetical.
+
+## 6. Limitations & honest boundaries
 
 - **Ω(L) ceiling.** Arbitrary associative recall needs Ω(L) state — general needle recall is O(n) at
   best, *not* O(log n). The O(log n) `hier` mixer holds only for sparse/structured recall.
@@ -136,7 +173,7 @@ comprehension task above and report the negative result honestly.
   the O(L) win to show in wall-clock at usable L.
 - **Routing** here is keyword-based; a learned/embedding router is future work.
 
-## 6. Conclusion & next steps
+## 7. Conclusion & next steps
 
 A near-useless 270M base becomes a 100%-accurate specialist from a 2.75% adapter, swaps tools in ~8 ms,
 forges new tools at runtime, and yields real security/coding specialists — all CPU-only and reproducible.
