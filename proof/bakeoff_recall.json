@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "task": "recall",
+    "chance": 0.125,
+    "d_model": 64,
+    "layers": 2,
+    "batch": 64,
+    "steps": 1500,
+    "lens": [
+      64
+    ],
+    "topk": 16,
+    "hier_S": 8,
+    "sparse_pairs": 6
+  },
+  "runs": [
+    {
+      "regime": "sparse",
+      "L": 64,
+      "n_pairs": 6,
+      "mixer": "dense",
+      "recall": 1.0
+    },
+    {
+      "regime": "sparse",
+      "L": 64,
+      "n_pairs": 6,
+      "mixer": "miras",
+      "recall": 1.0
+    }
+  ]
+}

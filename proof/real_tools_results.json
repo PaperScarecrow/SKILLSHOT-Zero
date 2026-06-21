@@ -1,0 +1,40 @@
+{
+  "model": "unsloth/gemma-3-270m-it",
+  "steps": 300,
+  "rank": 32,
+  "tools": {
+    "vuln-detect": {
+      "base_acc": 0.35333333333333333,
+      "tool_acc": 0.5933333333333334,
+      "lift": 0.24000000000000005,
+      "base_f1": null,
+      "tool_f1": null,
+      "majority": 0.56,
+      "verdict": "APPRECIABLE LIFT",
+      "n_train": 300,
+      "n_test": 150
+    },
+    "cve-severity": {
+      "base_acc": 0.48,
+      "tool_acc": 0.5666666666666667,
+      "lift": 0.08666666666666667,
+      "base_f1": 0.1853099730458221,
+      "tool_f1": 0.46458852375852544,
+      "majority": 0.48333333333333334,
+      "verdict": "modest lift",
+      "n_train": 300,
+      "n_test": 150
+    },
+    "code-match": {
+      "base_acc": 0.5666666666666667,
+      "tool_acc": 0.9,
+      "lift": 0.33333333333333337,
+      "base_f1": null,
+      "tool_f1": null,
+      "majority": 0.5033333333333333,
+      "verdict": "APPRECIABLE LIFT",
+      "n_train": 300,
+      "n_test": 150
+    }
+  }
+}

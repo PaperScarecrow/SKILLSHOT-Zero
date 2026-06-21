@@ -1,0 +1,39 @@
+# --- python / envs ---
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# --- model & adapter weights (reproducible via the scripts; keep the repo light) ---
+*.safetensors
+*.bin
+*.pt
+*.gguf
+tool_adapters/
+
+# --- HF / datasets caches ---
+.cache/
+hf_cache/
+datasets_cache/
+
+# --- secrets (backstop; never commit tokens) ---
+*.pat
+*.token
+*token*
+.env
+.env.*
+*.key
+*.pem
+secrets*
+
+# --- excluded from this repo (kept locally) ---
+sparse_attention_subq_memo.md
+
+# --- os / editor ---
+.DS_Store
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,16 @@
+{
+  "model": "unsloth/gemma-3-270m-it",
+  "skill": "reverse-letters",
+  "base_exact": 0.0,
+  "skill_exact": 0.0125,
+  "lift_exact": 0.0125,
+  "base_charsim": 0.30297126484626485,
+  "skill_charsim": 0.6186379796673914,
+  "lift_charsim": 0.31566671482112657,
+  "verdict": "APPRECIABLE LIFT",
+  "n_train": 200,
+  "n_test": 80,
+  "steps": 600,
+  "rank": 32,
+  "lr": 0.0002
+}

@@ -1,0 +1,10 @@
+# SKILLSHOT scaffold deps. Pin versions when you settle the env.
+torch>=2.2            # primitives, QAT/STE, SDPA
+transformers>=4.44    # expert bases (Track B: gemma-3-270m), tokenizers
+peft>=0.11            # adapter format interop (forge path / memorialize)
+datasets>=2.20        # fry/forge training data
+safetensors>=0.4      # adapter persistence
+sentence-transformers>=3.0   # optional: real description encoder for projected-LoRA/registry
+# Serving (later phases):
+# vllm                # paged KV cache + multi-LoRA serving
+# bitnet.cpp / custom CUDA  # packed 1.58-bit kernels for real ternary speedups

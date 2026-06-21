@@ -1,0 +1,60 @@
+{
+  "model": "unsloth/gemma-3-270m-it",
+  "magazine_init": [
+    "cipher",
+    "sort",
+    "addmod"
+  ],
+  "miss_skill": "reverse",
+  "steps": 500,
+  "rank": 32,
+  "phases": {
+    "base_no_tool": {
+      "cipher": 0.0,
+      "sort": 0.025,
+      "addmod": 0.0
+    },
+    "tool_changer": {
+      "routing_acc": 1.0,
+      "answer_acc": 1.0,
+      "per_skill": {
+        "cipher": 1.0,
+        "sort": 1.0,
+        "addmod": 1.0
+      },
+      "mean_swap_ms": 7.779389355952541
+    },
+    "wrong_tool": {
+      "cipher": {
+        "wrong_tool": "sort",
+        "acc": 0.0
+      },
+      "sort": {
+        "wrong_tool": "cipher",
+        "acc": 0.0
+      },
+      "addmod": {
+        "wrong_tool": "cipher",
+        "acc": 0.0
+      }
+    },
+    "miss_forge": {
+      "routed_before": null,
+      "gate_acc": 1.0,
+      "memorialized": true,
+      "magazine_after": [
+        "cipher",
+        "sort",
+        "addmod",
+        "reverse"
+      ]
+    }
+  },
+  "verdict": {
+    "base_mean": 0.008333333333333333,
+    "tool_changer_acc": 1.0,
+    "wrong_tool_mean": 0.0,
+    "miss_forge_acc": 1.0,
+    "pass": true
+  }
+}
