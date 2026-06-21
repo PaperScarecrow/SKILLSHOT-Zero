@@ -61,7 +61,7 @@ One MQAR (multi-query associative recall = clean needle-in-a-haystack) harness; 
 | **log-log slope** | **1.82** | **1.81** | **0.93** | **0.95** |
 
 - **miras and hier are genuinely O(L)** (slope ~0.93–0.95). **dense is O(L²)** (1.82). The slope gap *is* the sub-quadratic win.
-- **Top-k sparse softmax is also O(L²) (slope 1.81)** — it sparsifies *what* is attended, not the *cost of computing the scores*. **If you want true sub-quadratic, the linear-memory route is the only one of the two that delivers it.** (This is the trap the Sub-Q memo flagged, now measured on this box.)
+- **Top-k sparse softmax is also O(L²) (slope 1.81)** — it sparsifies *what* is attended, not the *cost of computing the scores*. **If you want true sub-quadratic, the linear-memory route is the only one of the two that delivers it.** (A common trap: "sparse attention" ≠ sub-quadratic compute — measured here on this box.)
 - **Constant-factor honesty:** miras's pure-Python recurrence has a heavy constant (~0.13 ms/token), so the wall-clock crossover vs *dense* is ~L≈5–6k on CPU (you can already see miras overtake top-k at L=4096: 552 vs 598 ms). The **slope** is the asymptotic truth; a fused/chunkwise-parallel kernel (the standard DeltaNet trick) collapses the constant and moves the crossover far left. This is an implementation cost, not an algorithmic one.
 
 ### B1/B4 — needle recall (sparse bindings)
@@ -118,7 +118,7 @@ See `../PAPER.md` for the full report.
 
 **Does NOT prove (the honest boundaries — these are the team's real risks):**
 - **Ω(L) ceiling.** Your own `ologn_attention4.py` and the theory agree: *arbitrary* associative recall needs Ω(L) state — you **cannot** make general needle recall O(log n). Linear memory is O(L) (great), not O(log n). The O(log n) `hier` mechanism only holds for *sparse/structured* recall and decays on arbitrary recall (observed: 0.51→0.17 across length).
-- **Single-needle ≠ multi-hop.** MQAR sparse recall is the *easy* bar (the one Sub-Q leaned on). Multi-needle / multi-hop reasoning over long context is the hard bar and is untested here.
+- **Single-needle ≠ multi-hop.** MQAR sparse recall is the *easy* bar (single-needle retrieval). Multi-needle / multi-hop reasoning over long context is the hard bar (now tested — see the recall set).
 - **Knowledge vs skill.** Skill-shot injects procedure/format, not world knowledge (cipher works; a knowledge-bound task would not). Knowledge must come from context/RAG.
 - **Scale.** These are 2-layer d=64 toy models and a 270M base on CPU. Nothing here speaks to whether the full stack (ternary + MoE + linear-attn + skill cache) *composes* at scale — the memo's super-additive-error warning still stands and must be tested by decoupled, sequenced experiments.
 - **VALENCE is not the transfer path.** Per your own files, VALENCE-proper is a GPU ray-tracing retrieval engine (needs RT cores + an uncompiled `libastra.so`, no transformer-weight import, fails order/binding in `VALENCE_BOUNCE_RESULTS.md`) — it cannot run CPU-only and cannot "convert gemma-3-270m." The real O(n) transfer lever is the linear-memory route demonstrated here.
