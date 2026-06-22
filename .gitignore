@@ -13,6 +13,8 @@ __pycache__/
 *.pt
 *.gguf
 tool_adapters/
+# ...except the curated example tools shipped via Git LFS (see .gitattributes)
+!adapters/**/*.safetensors
 
 # --- HF / datasets caches ---
 .cache/

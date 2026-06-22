@@ -36,6 +36,8 @@ that); execution-heavy coding (CRUXEval) is beyond a 270M even with an adapter.
 ```
 skillshot/              orchestration scaffold (mothership/router, registry, adapter cache,
                         memorialize loop, ortho-LoRA, MIRAS/TITANS memory gate, ternary)
+adapters/               example LoRA tools (the "magazine"): cipher, reverse, vuln-detect,
+                        cve-severity — real trained adapters, shipped via Git LFS
 demo_control_loop.py    runnable mock orchestration demo
 proof/                  the CPU proof-of-concept (the evidence)
   mqar_bakeoff.py         Track B: needle-recall + compute-scaling bake-off (4 mixers)
@@ -61,5 +63,9 @@ CUDA_VISIBLE_DEVICES="" python real_tools_poc.py  --steps 300
 ```
 gemma-3-270m loads from the local HF cache (`unsloth/gemma-3-270m-it`, offline). Datasets download
 from the Hub on first run.
+
+The four example tools in `adapters/` ship via **Git LFS** — run `git lfs install` once, then
+`git lfs pull` (or a fresh `git clone`) to fetch the real `.safetensors` weights instead of
+pointer files. See [`adapters/README.md`](adapters/README.md) to load and swap them.
 
 See `PAPER.md` for the full report.
